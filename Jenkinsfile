@@ -31,17 +31,13 @@ pipeline {
                 bat 'mvn package -DskipTests'
             }
         }
-        stage('Building Image') {
+        
+        stage('Push Docker Image') {
             steps {
-                echo '---- Building Image ----'
-                bat 'docker build -t mon-image .'
-            }
-        }
-        stage('Login to Docker Hub & Push') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-                    sh 'echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin'
-                    sh 'docker push yourusername/yourimage:latest'
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
+                bat "docker build -t %DOCKER_USER%/mon-image:latest ."
+                bat "docker push %DOCKER_USER%/mon-image:latest"
                 }
             }
         }
