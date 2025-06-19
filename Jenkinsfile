@@ -37,6 +37,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo '---- Deploy to Docker ----'
+                bat 'docker rm -f mon-image || echo "Pas de conteneur à supprimer"'
                 bat 'docker run -d --name mon-image -p 8980:8980 mon-image'
             }
         }
