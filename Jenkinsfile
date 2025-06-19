@@ -37,7 +37,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo '---- Deploy to Docker ----'
-                bat 'docker push mon-image'
                 bat 'docker run -d --name mon-image -p 8980:8980 mon-image'
             }
         }
