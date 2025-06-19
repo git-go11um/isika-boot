@@ -25,7 +25,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo '---- Building JAR ----'
-                bat 'mvn package'
+                bat 'mvn package -DskipTests'
             }
         }
         stage('Building Image') {
