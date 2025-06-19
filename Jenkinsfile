@@ -3,6 +3,9 @@ pipeline {
     tools {
             maven 'Maven' // Assurez-vous que Maven est configuré dans Jenkins sous le nom 'Maven'
         }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Use your credentials ID
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -34,6 +37,13 @@ pipeline {
                 bat 'docker build -t mon-image .'
             }
         }
+        stage('Login to Docker Hub & Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                    sh 'echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin'
+                    sh 'docker push yourusername/yourimage:latest'
+                }
+            }
         stage('Deploy') {
             steps {
                 echo '---- Deploy to Docker ----'
