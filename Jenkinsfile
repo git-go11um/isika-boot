@@ -3,12 +3,10 @@ pipeline {
     tools {
             maven 'Maven' // Assurez-vous que Maven est configuré dans Jenkins sous le nom 'Maven'
         }
-    agent {
-        docker {
+    docker {
             image 'votre-image-docker'
             registryCredentialsId 'votre-id-credentials-dockerhub'
         }
-    }
     stages {
         stage('Checkout') {
             steps {
