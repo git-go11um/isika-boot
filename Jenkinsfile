@@ -44,6 +44,7 @@ pipeline {
                     sh 'docker push yourusername/yourimage:latest'
                 }
             }
+        }
         stage('Deploy') {
             steps {
                 echo '---- Deploy to Docker ----'
