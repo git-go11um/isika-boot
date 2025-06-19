@@ -49,16 +49,5 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            // Publie les résultats des tests
-            junit '**/target/surefire-reports/*.xml'
-        }
-        success {
-            echo 'Pipeline succeeded!'
-        }
-        failure {
-            echo 'Pipeline failed!'
-        }
-    }
+    
 }
